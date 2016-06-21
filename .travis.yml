@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.4
+
+sudo: false
+
+install:
+  - go get github.com/ar3s3ru/gobus
