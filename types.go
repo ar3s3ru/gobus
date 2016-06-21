@@ -3,15 +3,15 @@ package gobus
 import "sync"
 
 type (
-    // Map that holds all listener references, indexed through input argument name.
-    // Uses an IListenerSet interface as return type, for optimization purposes.
+    // Map that holds all listener references, indexed through input argument name.</br>
+    // Uses an IListenerSet interface as return type, for optimization purposes.</br>
     // Example of subscriptions map:
     //     map
     //     |--> string (built-in)
-    //     |    |--> printString1(), printString2()
+    //     |    |--> printString1(str string), printString2(str string)
     //     |
     //     |--> Struct1 (user-defined)
-    //          |--> printStruct1(), doSomethingStruct1()
+    //          |--> printStruct1(s1 Struct1), doSomethingStruct1(s1 Struct1)
     //
     Subscription map[string]IListenerSet
 
