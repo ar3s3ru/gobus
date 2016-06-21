@@ -1,4 +1,4 @@
-# GoBus
+# GoBus [![Build Status](https://travis-ci.org/ar3s3ru/gobus.svg?branch=master)](https://travis-ci.org/ar3s3ru/gobus)
 
 Simple asynchronous, <b>content-based</b> event bus for Go.
 
