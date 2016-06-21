@@ -35,7 +35,7 @@ func NewEventBusBuffered(chanSize int) (*EventBus) {
 // Should be deferred after the factory call:
 //
 //      func main() {
-//          bus := gobus.NewEventBus(2)
+//          bus := gobus.NewEventBus()
 //          defer bus.Destruct()
 //          ...
 //      }
@@ -68,7 +68,6 @@ func (bus *EventBus) UnSubscribe(listeners ...interface{}) (*EventBus) {
 // The event bus notifies the poller goroutine, which will retrieve the correct subscribed
 // listeners and calls them with a copy of the event published.
 func (bus *EventBus) Publish(event interface{}) (*EventBus) {
-    // TODO: event passed by value
     bus.waitGroup.Add(1)    // Waiting for alerting
     bus.dispatcher <- event // Publishing event into the dispatcher channel
     return bus
@@ -92,7 +91,7 @@ func (bus *EventBus) alertListeners(event interface{}) {
 }
 
 // Decorator for listener execution on the event.
-// Calls the listener and signals completition on the EventBus waitgroup.
+// Calls the listener and signals completion on the EventBus waitgroup.
 func (bus *EventBus) executingWithWaiting(listener interface{}, event interface{}) {
     funct, evt := reflect.ValueOf(listener), reflect.ValueOf(event)
     funct.Call([]reflect.Value{evt})
