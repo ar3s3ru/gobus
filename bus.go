@@ -6,8 +6,21 @@ import (
 )
 
 // Factory method for EventBus objects.
+// Creates a new EventBus with a dispatcher un-buffered channel.
+func NewEventBus() (*EventBus) {
+    bus := &EventBus{
+        subscription: make(Subscription),
+        dispatcher:   make(chan interface{}),
+        quit:         make(chan bool),
+    }
+
+    go bus.pollerBus()
+    return bus
+}
+
+// Factory method for EventBus objects.
 // Creates a new EventBus with a dispatcher buffered channel.
-func NewEventBus(chanSize int) (*EventBus) {
+func NewEventBusBuffered(chanSize int) (*EventBus) {
     bus := &EventBus{
         subscription: make(Subscription),
         dispatcher:   make(chan interface{}, chanSize),
@@ -99,7 +112,6 @@ func (bus *EventBus) pollerBus() {
         // Quitting received, closing bus channels and exit the main loop
         case <-bus.quit:
             close(bus.quit)
-            close(bus.dispatcher)
             return
         }
     }

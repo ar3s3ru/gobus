@@ -14,7 +14,7 @@ func printSomethingElse(integer int) {
 }
 
 func main() {
-    bus := gobus.NewEventBus(5)
+    bus := gobus.NewEventBus()
     defer bus.Destruct()
 
     bus.Subscribe(printSomething, printSomethingElse)
