@@ -3,8 +3,8 @@ package gobus
 import "sync"
 
 type (
-    // Map that holds all listener references, indexed through input argument name.</br>
-    // Uses an IListenerSet interface as return type, for optimization purposes.</br>
+    // Map that holds all listener references, indexed through input argument name.
+    // Uses an IListenerSet interface as return type, for optimization purposes.
     // Example of subscriptions map:
     //     map
     //     |--> string (built-in)
