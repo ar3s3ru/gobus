@@ -6,7 +6,7 @@ Simple asynchronous, <b>content-based</b> event bus for Go.
 
 GoBus provides a straightforward implementation for an Event Bus.</br>
 Start using the Event Bus this way:
-```
+```go
 bus := gobus.NewEventBus(chanSize)
 defer bus.Destruct()
 ```
@@ -20,7 +20,7 @@ cleanup purposes (closing channels, returning asynchronous goroutines, ...).
 
 You can subscribe (and unsubscribe) one or more listeners to the Event Bus like this:
 
-```
+```go
 func useString(event string) {
     // Do something
 }
@@ -50,7 +50,7 @@ listeners registered to the bus</i></b>).
 
 You can publish events to the Event Bus this way:
 
-```
+```go
 bus.Publish("HelloWorld!")
 
 // Method chaining
