@@ -7,11 +7,11 @@ Simple asynchronous, <b>content-based</b> event bus for Go.
 GoBus provides a straightforward implementation for an Event Bus.</br>
 Start using the Event Bus this way:
 ```go
-bus := gobus.NewEventBus(chanSize)
+bus := gobus.NewEventBus()                  // Un-buffered channel
+bus := gobus.NewEventBusBuffered(chanSize)  // Buffered channel
 defer bus.Destruct()
 ```
-GoBus can use a buffered and an un-buffered channel to dispatch events as they arrive.</br>
-<i>NB: un-buffered channel not yet implemented...</i>
+GoBus can use a buffered and an un-buffered channel to dispatch events as they arrive.
 
 Always remember to call  ```bus.Destruct()``` at the end of the Event Bus usage, as it's needed for
 cleanup purposes (closing channels, returning asynchronous goroutines, ...).

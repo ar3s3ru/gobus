@@ -42,8 +42,8 @@ func NewEventBusBuffered(chanSize int) (*EventBus) {
 //      }
 //
 func (bus *EventBus) Destruct() {
-    bus.quit <- true
     bus.waitGroup.Wait()
+    bus.quit <- true
 }
 
 // Subscribe a listener to certain events.
