@@ -2,6 +2,7 @@ package gobus
 
 import "reflect"
 
+// Returns all the listeners associated to the event type typ, or returns a ListenersNotFoundErr.
 func (s *Subscription) GetListeners(typ reflect.Type) (IListenerSet, error) {
     val, ok := (*s)[typ.String()]
     if !ok {
@@ -11,9 +12,12 @@ func (s *Subscription) GetListeners(typ reflect.Type) (IListenerSet, error) {
     return val, nil
 }
 
+// Adds a new listener to the IListenerSet into the Subscription map.
 func (s *Subscription) AddListener(listener interface{}) (*Subscription) {
+    // Check if the listener is good
     content, err := checkListener(listener)
     if err != nil {
+        // If not, panic with ListenerInvalidErr
         panic(err)
     }
 
@@ -30,6 +34,7 @@ func (s *Subscription) AddListener(listener interface{}) (*Subscription) {
     return s
 }
 
+// Remove a listener from the IListenerSet into the Subscription map.
 func (s *Subscription) RemoveListener(listener interface{}) (*Subscription) {
     content, err := checkListener(listener)
     if err != nil {
@@ -45,6 +50,9 @@ func (s *Subscription) RemoveListener(listener interface{}) (*Subscription) {
     return s
 }
 
+// Checks if the listener passed is valid.
+// If valid, returns a reflect.Type object of the listener input argument;
+// if not valid, returns a ListenerInvalidErr and a reflect.Type of the listener passed.
 func checkListener(listener interface{}) (reflect.Type, error) {
     lisVal := reflect.TypeOf(listener)
 

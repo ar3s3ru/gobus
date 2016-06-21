@@ -19,6 +19,6 @@ func main() {
 
     bus.Subscribe(printSomething, printSomethingElse)
     bus.Publish("Hello world!").    // Publishing a string will call printSomething(string)
-    Publish(14).                // Publishing an int will call printSomethingElse(int)
-    Publish(10)
+        Publish(14).                // Publishing an int will call printSomethingElse(int)
+        Publish(10)
 }

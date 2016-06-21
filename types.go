@@ -15,7 +15,7 @@ type (
     //
     Subscription map[string]IListenerSet
 
-    // EventBus
+    // EventBus, of course
     EventBus struct {
         dispatcher   chan interface{}
         subscription Subscription
