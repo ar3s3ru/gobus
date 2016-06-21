@@ -18,7 +18,6 @@ type (
     // EventBus
     EventBus struct {
         dispatcher   chan interface{}
-        quit         chan bool
         subscription Subscription
         waitGroup    sync.WaitGroup
     }

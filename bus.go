@@ -3,6 +3,7 @@ package gobus
 import (
     "reflect"
     "log"
+    "runtime"
 )
 
 // Factory method for EventBus objects.
@@ -11,7 +12,6 @@ func NewEventBus() (*EventBus) {
     bus := &EventBus{
         subscription: make(Subscription),
         dispatcher:   make(chan interface{}),
-        quit:         make(chan bool),
     }
 
     go bus.pollerBus()
@@ -24,7 +24,6 @@ func NewEventBusBuffered(chanSize int) (*EventBus) {
     bus := &EventBus{
         subscription: make(Subscription),
         dispatcher:   make(chan interface{}, chanSize),
-        quit:         make(chan bool),
     }
 
     go bus.pollerBus()
@@ -43,7 +42,7 @@ func NewEventBusBuffered(chanSize int) (*EventBus) {
 //
 func (bus *EventBus) Destruct() {
     bus.waitGroup.Wait()
-    bus.quit <- true
+    close(bus.dispatcher)
 }
 
 // Subscribe a listener to certain events.
@@ -106,13 +105,17 @@ func (bus *EventBus) executingWithWaiting(listener interface{}, event interface{
 func (bus *EventBus) pollerBus() {
     for {
         select {
-        // New event received, alerting listeners asynchronously
-        case v := <-bus.dispatcher:
+        case v, ok := <-bus.dispatcher:
+            // No more values added and channel closed, returns
+            if !ok {
+                return
+            }
+            // New event received, alerting listeners asynchronously
             go bus.alertListeners(v)
-        // Quitting received, closing bus channels and exit the main loop
-        case <-bus.quit:
-            close(bus.quit)
-            return
+
+        default:
+            // Yields the processor and let other goroutines to execute
+            runtime.Gosched()
         }
     }
 }
